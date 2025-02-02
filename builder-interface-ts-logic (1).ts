@@ -1,63 +1,115 @@
-// app.ts
 interface ViewElements {
     listingsTab: HTMLButtonElement;
     savedTab: HTMLButtonElement;
     listingsView: HTMLElement;
     savedView: HTMLElement;
+    editProfileButton: HTMLButtonElement;
+    infoPanels: NodeListOf<HTMLDivElement>;
+    profileName: HTMLParagraphElement;
+    profileMaterials: HTMLParagraphElement;
+    lookingForItems: NodeListOf<HTMLParagraphElement>;
+    avatarImage: HTMLImageElement;
+    avatarContainer: HTMLDivElement;
 }
 
 class BuilderInterface {
     private elements: ViewElements;
+    private isEditing: boolean = false;
+    private fileInput: HTMLInputElement;
 
     constructor() {
         this.elements = {
             listingsTab: document.getElementById('listingsTab') as HTMLButtonElement,
             savedTab: document.getElementById('savedTab') as HTMLButtonElement,
             listingsView: document.getElementById('listingsView') as HTMLElement,
-            savedView: document.getElementById('savedView') as HTMLElement
+            savedView: document.getElementById('savedView') as HTMLElement,
+            editProfileButton: document.querySelector('.edit-profile') as HTMLButtonElement,
+            infoPanels: document.querySelectorAll('.info-panel'),
+            profileName: document.querySelector('.info-panel p') as HTMLParagraphElement,
+            profileMaterials: document.querySelectorAll('.info-panel p')[1] as HTMLParagraphElement,
+            lookingForItems: document.querySelectorAll('.looking-for-item'),
+            avatarImage: document.querySelector('.avatar img') as HTMLImageElement,
+            avatarContainer: document.querySelector('.avatar') as HTMLDivElement
         };
 
+        this.createFileInput();
         this.initializeEventListeners();
+    }
+
+    private createFileInput(): void {
+        this.fileInput = document.createElement('input');
+        this.fileInput.type = 'file';
+        this.fileInput.accept = 'image/*';
+        this.fileInput.style.display = 'none';
+        document.body.appendChild(this.fileInput);
+
+        this.fileInput.addEventListener('change', (e: Event) => {
+            const target = e.target as HTMLInputElement;
+            if (target.files && target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    if (e.target?.result) {
+                        this.elements.avatarImage.src = e.target.result as string;
+                    }
+                };
+                reader.readAsDataURL(target.files[0]);
+            }
+        });
     }
 
     private initializeEventListeners(): void {
         this.elements.listingsTab.addEventListener('click', () => this.switchView('listings'));
         this.elements.savedTab.addEventListener('click', () => this.switchView('saved'));
-
-        // Add click handlers for grid items
-        const gridItems = document.querySelectorAll('.grid-item');
-        gridItems.forEach(item => {
-            item.addEventListener('click', (e) => this.handleItemClick(e));
-        });
-
-        // Home button navigation
-        const homeButton = document.querySelector('.home-button');
-        homeButton?.addEventListener('click', () => this.navigateHome());
+        this.elements.editProfileButton.addEventListener('click', () => this.toggleEditProfile());
     }
 
     private switchView(view: 'listings' | 'saved'): void {
-        // Update tab styles
         this.elements.listingsTab.classList.toggle('active', view === 'listings');
         this.elements.savedTab.classList.toggle('active', view === 'saved');
-
-        // Show/hide appropriate view
         this.elements.listingsView.style.display = view === 'listings' ? 'grid' : 'none';
         this.elements.savedView.style.display = view === 'saved' ? 'grid' : 'none';
     }
 
-    private handleItemClick(e: Event): void {
-        const target = e.currentTarget as HTMLElement;
-        // Handle navigation to item detail page
-        console.log('Navigating to item details page');
+    private toggleEditProfile(): void {
+        this.isEditing = !this.isEditing;
+        this.elements.editProfileButton.textContent = this.isEditing ? 'Save' : 'Edit Profile';
+
+        // Toggle editing for profile picture
+        if (this.isEditing) {
+            this.elements.avatarContainer.style.cursor = 'pointer';
+            this.elements.avatarContainer.addEventListener('click', () => this.fileInput.click());
+            this.elements.avatarImage.style.opacity = '0.8';
+        } else {
+            this.elements.avatarContainer.style.cursor = 'default';
+            this.elements.avatarContainer.removeEventListener('click', () => this.fileInput.click());
+            this.elements.avatarImage.style.opacity = '1';
+        }
+
+        // Toggle editing for profile name and materials
+        this.toggleEditableField(this.elements.profileName);
+        this.toggleEditableField(this.elements.profileMaterials);
+
+        // Toggle editing for "Looking for" items
+        this.elements.lookingForItems.forEach(item => this.toggleEditableField(item));
     }
 
-    private navigateHome(): void {
-        // Handle navigation to home page
-        console.log('Navigating to home page');
+    private toggleEditableField(element: HTMLElement): void {
+        if (this.isEditing) {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.value = element.textContent || '';
+            input.className = 'editable-input';
+            element.replaceWith(input);
+        } else {
+            const newElement = document.createElement('p');
+            const input = element as HTMLInputElement;
+            newElement.textContent = input.value;
+            newElement.className = element.className;
+            element.replaceWith(newElement);
+        }
     }
 }
 
-// Initialize the interface when the DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new BuilderInterface();
 });
