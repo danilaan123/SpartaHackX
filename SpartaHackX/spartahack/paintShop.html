@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace</title>
+    <link rel="stylesheet" href="styles/paintshop.css">
+</head>
+<body>
+    <div class="header">
+        <button class="back-button">←</button>
+        <div class="action-buttons">
+            <button class="sort-btn">sort</button>
+            <button class="filter-btn">filter</button>
+        </div>
+    </div>
+
+    <div class="new-listing-container">
+        <button class="new-listing-btn">
+            <img src="images/plus-circle-svgrepo-com.svg" alt="Plus Button" class="plus-circle">
+            <span>new listing</span>
+        </button>
+    </div>
+    <div class="grid-container">
+    </div>
+    <div id="listingModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Add New Listing</h2>
+            <form id="listingForm">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+                
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+                                                
+                <label for="image">Image:</label>
+                <input type="file" id="image" name="image" accept="image/*" required>
+                
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="Available">Available</option>
+                    <option value="Sold">Sold</option>
+                </select>
+                
+                <div class="form-buttons">
+                    <button type="button" class="modal-back-button">Back</button>
+                    <button type="submit" class="submit-button">Add Listing</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <img id="detailImage" src="" alt="Listing Image" class="item-image">
+            <h2 id="detailTitle"></h2>
+            <p id="detailDescription"></p>
+            <button id="sendMessageButton" class="send-message-btn">Message</button>
+        </div>
+    </div>
+    
+    
+    <script src="scripts/paintmain.js"></script>
+
+</body>
+</html>

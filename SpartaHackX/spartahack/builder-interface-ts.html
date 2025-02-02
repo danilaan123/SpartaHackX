@@ -1,0 +1,87 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Builder Interface</title>
+    <link rel = "stylesheet" href = "styles/main.css"
+
+
+</head>
+<body>
+    <img src="images/wood_plank_pile" alt="Wood planks background" class="header-image">
+    
+    <div class="main-content">
+        <div class="content-layout">
+            <div class="left-column">
+                <div class="profile-container">
+                    <div class="avatar">
+                        <img src="images/bob_the_builder.jpg" alt="Builder avatar">
+                    </div>
+                    <div class="info-container">
+                        <div class="info-panel">
+                            <p>My name is Bob.</p>
+                            <p>I have hardware and wood available.</p>
+                        </div>
+                        <div class="info-panel">
+                            <p><strong>Looking for:</strong></p>
+                            <div class="looking-for-container">
+                                <p class="looking-for-item">Red paint</p>
+                                <p class="looking-for-item">Black paint</p>
+                                <p class="looking-for-item">10mm nails</p>
+                            </div>
+                        </div>
+                        <div class="info-panel">
+                            <p><strong>INBOX    (3)</strong></p>
+                        </div>
+                    </div>
+                    <button class="edit-profile">Edit profile</button>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="nav-tabs">
+                    <button class="tab-button active" id="listingsTab">Listings</button>
+                    <button class="tab-button" id="savedTab">Saved</button>
+                </div>
+
+                <div id="listingsView" class="grid-container">
+                    <button class="grid-item">
+                        <img src="images/screwdriver.jpg" alt="Wood planks">
+                    </button>
+                    <button class="grid-item">
+                        <img src="images/wood_planks_item.jpg" alt="Round wood">
+                    </button>
+                    <button class="grid-item">
+                        <img src="images/bolts.jpg" alt="Wood block">
+                    </button>
+                    <button class="grid-item">
+                        <img src="images/screws.jpg" alt="Screw">
+                    </button>
+                    <button class="grid-item">
+                        <img src="images/wood_planks_2.jpg" alt="Screwdriver">
+                    </button>
+                    <button class="grid-item">
+                        <img src="images/wood_planks_3.jpg" alt="Wall plugs">
+                    </button>
+                </div>
+
+                <div id="savedView" class="grid-container">
+                    <!-- Saved items will appear here -->
+                </div>
+
+                <div class="pagination">
+                    <button class="page-button">Page 1</button>
+                    <button class="page-button">→</button>
+                </div>
+            </div>
+        </div>
+
+        <button class="home-button" onclick="window.location.href='index.html'">Home</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
